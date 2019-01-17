@@ -14,7 +14,8 @@ class SignUp(generic.CreateView):
 def create_new_user(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
-        form.save()
+        if form.is_valid():
+            form.save()
     else:
         form = SignUpForm
-    return render(request, 'registration/signup.html', { 'form': form})
+    return render(request, 'registration/signup.html', {'form': form})
