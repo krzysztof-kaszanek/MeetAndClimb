@@ -1,3 +1,7 @@
 .content {
     margin: 3% 10% 0 10%;
 }
+
+input {
+    width: 25% !important;
+}
