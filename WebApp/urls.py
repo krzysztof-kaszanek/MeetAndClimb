@@ -11,4 +11,6 @@ urlpatterns = [
     path('wyjazdy/dodaj/', views.dodaj_wyjazd, name='dodaj_wyjazd'),
     path('zglos/<int:wyjazd_id>/', views.zglos_na_wyjazd, name='zglos_na_wyjazd'),
     path('zgloszenia/', views.przegladaj_zgloszenia, name='przegladaj_zgloszenia'),
+    path('zgloszenia/zaakceptuj/<int:zgloszenie_id>/', views.zaakceptuj_zgloszenie, name='zaakceptuj_zgloszenie'),
+    path('zgloszenia/odrzuc/<int:zgloszenie_id>/', views.odrzuc_zgloszenie, name='odrzuc_zgloszenie'),
 ]

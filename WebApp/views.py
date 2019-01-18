@@ -57,3 +57,18 @@ def przegladaj_zgloszenia(request):
     wspinacz = Wspinacz.objects.get(user=request.user)
     zgloszenia = UczestnikWyjazdu.objects.all().filter(status_zgloszenia='oczek', wyjazd__organizator=wspinacz)
     return render(request, 'zgloszenia.html', {'zgloszenia': zgloszenia})
+
+
+def zaakceptuj_zgloszenie(request, zgloszenie_id):
+    zgloszenie = UczestnikWyjazdu.objects.get(pk=zgloszenie_id)
+    zgloszenie.status_zgloszenia = 'zaakc'
+    zgloszenie.save()
+    return redirect('przegladaj_zgloszenia')
+
+
+def odrzuc_zgloszenie(request, zgloszenie_id):
+    zgloszenie = UczestnikWyjazdu.objects.get(pk=zgloszenie_id)
+    zgloszenie.status_zgloszenia = 'odrz'
+    zgloszenie.save()
+    return redirect('przegladaj_zgloszenia')
+
