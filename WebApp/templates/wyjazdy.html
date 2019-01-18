@@ -10,7 +10,7 @@
       <h5 class="card-header">{{ wyjazd.tytul }} {{ wyjazd.data_rozpoczecia }}-{{ wyjazd.data_zakonczenia }}</h5>
       <div class="card-body">
         <p class="card-text">{{ wyjazd.opis }}</p>
-        <a href="#" class="btn btn-primary">Szczegóły</a>
+        <a href="{{ wyjazd.pk }}" class="btn btn-primary">Szczegóły</a>
       </div>
     </div>
   {% endfor %}

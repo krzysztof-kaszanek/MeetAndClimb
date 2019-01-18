@@ -63,7 +63,7 @@ class Kurs(models.Model):
     rodzaj_kursu = models.CharField(max_length=255, choices=RODZAJE_KURSU)
 
 
-class Sprzet(models.Model):
+class PosiadaSprzet(models.Model):
     RODZAJE_SPRZETU = (
         ('lina_poj', 'Lina pojedyncza'),
         ('lina pol', 'Lina połówkowa'),
@@ -76,13 +76,9 @@ class Sprzet(models.Model):
         ('sr lodowa', 'Śruba lodowa'),
     )
 
-    nazwa = models.CharField(max_length=255, choices=RODZAJE_SPRZETU)
-
-
-class PosiadaSprzet(models.Model):
     wspinacz = models.ForeignKey(Wspinacz, on_delete=models.CASCADE)
-    sprzet = models.ForeignKey(Sprzet, on_delete=models.CASCADE)
-    ilosc = models.IntegerField()
+    nazwa_sprzetu = models.CharField(max_length=255, choices=RODZAJE_SPRZETU)
+    ilosc_sprzetu = models.IntegerField()
 
 
 class UczestnikWyjazdu(models.Model):

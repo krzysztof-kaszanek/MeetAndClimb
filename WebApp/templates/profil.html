@@ -9,10 +9,23 @@
     <p><b>Imię:</b> {{ user.first_name }}</p>
     <p><b>Nazwisko: </b>{{ user.last_name }}</p>
     <p><b>Email:</b> {{ user.email }}</p>
-  <form method="post">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    <input type="submit" value="Zaktualizuj" class="btn btn-primary">
-  </form>
+    <p><b>Sprzęt:</b></p></label>
+    <ul>
+    {% for item in sprzet %}
+      <li>{{ item.ilosc_sprzetu }} - {{ item.nazwa_sprzetu}}</li>
+    {% endfor %}
+    </ul>
+    <form method="post">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      <input type="submit" value="Zaktualizuj" class="btn btn-primary">
+    </form>
   </div>
+{% endblock %}
+{% block style %}
+<style>
+label {
+  font-weight: bold;
+}
+</style>
 {% endblock %}

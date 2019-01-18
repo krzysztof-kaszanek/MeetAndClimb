@@ -21,7 +21,7 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-5">
+  <div class="col-sm-4">
     <div class="card" id="uczestnicy">
       <h5 class="card-header">Uczestnicy</h5>
       <div class="card-body">
@@ -31,7 +31,7 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-5">
+  <div class="col-sm-4">
     <div class="card" id="sprzet">
       <h5 class="card-header">Dostępny sprzęt</h5>
       <div class="card-body">
@@ -39,13 +39,15 @@
       </div>
     </div>
   </div>
+  <div class="col-sm-2">
+    <a href="/zglos/{{ wyjazd.pk }}/" class="btn btn-primary" style="margin-bottom: 30px">Zgłoś chęć udziału</a>
+    <a href="/wyjazdy/" class="btn btn-danger">Powrót do listy wyjazdów</a>
+  </div>
 </div>
 
 {% endblock %}
 {% block style %}
 <style>
-
-
   .card {
     margin-bottom: 3%;
   }

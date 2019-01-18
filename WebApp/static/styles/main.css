@@ -14,3 +14,13 @@ select {
     width: 15% !important;
     height: 200px;
 }
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+  margin-top: 0;
+}
+
+li.dropdown:last-child .dropdown-menu {
+    right: 0;
+    left: auto;
+}
