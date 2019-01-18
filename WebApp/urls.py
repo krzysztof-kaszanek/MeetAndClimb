@@ -13,4 +13,6 @@ urlpatterns = [
     path('zgloszenia/', views.przegladaj_zgloszenia, name='przegladaj_zgloszenia'),
     path('zgloszenia/zaakceptuj/<int:zgloszenie_id>/', views.zaakceptuj_zgloszenie, name='zaakceptuj_zgloszenie'),
     path('zgloszenia/odrzuc/<int:zgloszenie_id>/', views.odrzuc_zgloszenie, name='odrzuc_zgloszenie'),
+    path('wiadomosci/', views.przegladaj_wiadomosci, name='przegladaj_wiadomosci'),
+    path('wiadomosci/<int:wiadomosc_id>', views.czytaj_wiadomosc, name='czytaj_wiadomosc'),
 ]

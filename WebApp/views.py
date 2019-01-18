@@ -1,15 +1,17 @@
 from django.http import HttpResponse
 from django.template import loader
 from WebApp.forms import UpdateWspinacz, DodajWyjazd
-from WebApp.models import Wspinacz, Wyjazd, UczestnikWyjazdu, PosiadaSprzet
+from WebApp.models import Wspinacz, Wyjazd, UczestnikWyjazdu, PosiadaSprzet, Wiadomosc
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import logout
 
 
 def index(request):
+    wspinacz = Wspinacz.objects.get(user=request.user)
     template = loader.get_template('base.html')
-    context = {}
-    return HttpResponse(template.render(context, request))
+    wiadomosci = Wiadomosc.objects.all().filter(odbiorca=wspinacz, przeczytana=False)
+    liczba_wiadomosci = len(wiadomosci)
+    return HttpResponse(template.render({'liczba_wiadomosci': liczba_wiadomosci}, request))
 
 
 def profil(request):
@@ -56,6 +58,7 @@ def zglos_na_wyjazd(request, wyjazd_id):
 def przegladaj_zgloszenia(request):
     wspinacz = Wspinacz.objects.get(user=request.user)
     zgloszenia = UczestnikWyjazdu.objects.all().filter(status_zgloszenia='oczek', wyjazd__organizator=wspinacz)
+
     return render(request, 'zgloszenia.html', {'zgloszenia': zgloszenia})
 
 
@@ -63,6 +66,11 @@ def zaakceptuj_zgloszenie(request, zgloszenie_id):
     zgloszenie = UczestnikWyjazdu.objects.get(pk=zgloszenie_id)
     zgloszenie.status_zgloszenia = 'zaakc'
     zgloszenie.save()
+    zalogowany_wspinacz = Wspinacz.objects.get(user=request.user)
+    Wiadomosc.objects.create(nadawca=zalogowany_wspinacz, odbiorca=zgloszenie.wspinacz,
+                             tytul='Zgłoszenie zaakceptowane',
+                             wiadomosc='Twoje zgłoszenie na wyjazd: "' + zgloszenie.wyjazd.tytul +
+                                       '" zostało zaakceptowane przez organizatora!')
     return redirect('przegladaj_zgloszenia')
 
 
@@ -70,5 +78,23 @@ def odrzuc_zgloszenie(request, zgloszenie_id):
     zgloszenie = UczestnikWyjazdu.objects.get(pk=zgloszenie_id)
     zgloszenie.status_zgloszenia = 'odrz'
     zgloszenie.save()
+    zalogowany_wspinacz = Wspinacz.objects.get(user=request.user)
+    Wiadomosc.objects.create(nadawca=zalogowany_wspinacz, odbiorca=zgloszenie.wspinacz,
+                             tytul='Zgłoszenie odrzucone',
+                             wiadomosc='Twoje zgłoszenie na wyjazd: "' + zgloszenie.wyjazd.tytul +
+                                       '" zostało odrzucone przez organizatora')
     return redirect('przegladaj_zgloszenia')
 
+
+def przegladaj_wiadomosci(request):
+    wspinacz = Wspinacz.objects.get(user=request.user)
+    wiadomosci = Wiadomosc.objects.all().filter(odbiorca=wspinacz).order_by('-data_wyslania')
+    return render(request, 'wiadomosci.html', {'wiadomosci': wiadomosci})
+
+
+def czytaj_wiadomosc(request, wiadomosc_id):
+    wiadomosc = Wiadomosc.objects.get(pk=wiadomosc_id)
+    if not wiadomosc.przeczytana:
+        wiadomosc.przeczytana = True
+        wiadomosc.save()
+    return render(request, 'wiadomosc.html', {'wiadomosc': wiadomosc})

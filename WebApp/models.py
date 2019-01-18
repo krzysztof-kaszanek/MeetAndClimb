@@ -97,3 +97,12 @@ class UczestnikKursu(models.Model):
     wspinacz = models.ForeignKey(Wspinacz, on_delete=models.CASCADE)
     kurs = models.ForeignKey(Kurs, on_delete=models.CASCADE)
     potwierdzenie_wplaty = models.BinaryField(null=True)
+
+
+class Wiadomosc(models.Model):
+    nadawca = models.ForeignKey(Wspinacz, on_delete=models.CASCADE, related_name='nadawca')
+    odbiorca = models.ForeignKey(Wspinacz, on_delete=models.CASCADE, related_name='odbiorca')
+    tytul = models.CharField(max_length=255)
+    wiadomosc = models.CharField(max_length=255)
+    przeczytana = models.BooleanField(default=False)
+    data_wyslania = models.DateTimeField(auto_now_add=True)

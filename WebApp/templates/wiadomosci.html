@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}Wiadomości{% endblock %}
+
+{% block content %}
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Nadawca</th>
+        <th>Temat</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for wiadomosc in wiadomosci %}
+        <tr>
+          <td>{{ wiadomosc.nadawca.user.first_name }} {{ wiadomosc.nadawca.user.last_name }}</td>
+          <td>
+            {% if wiadomosc.przeczytana == False %}
+              <b><a href="{{ wiadomosc.pk }}/">{{ wiadomosc.tytul }}</a></b>
+            {% else %}
+              <a href="{{ wiadomosc.pk }}/">{{ wiadomosc.tytul }}</a>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+{% block style %}
+  <style>
+    a {
+      text-decoration: none;
+    }
+  </style>
+{% endblock %}
+

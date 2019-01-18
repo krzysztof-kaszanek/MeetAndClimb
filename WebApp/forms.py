@@ -31,6 +31,23 @@ class SignUpForm(UserCreationForm):
 
 
 class UpdateWspinacz(forms.ModelForm):
+    RODZAJE_SPRZETU = (
+        ('lina_poj', 'Lina pojedyncza'),
+        ('lina pol', 'Lina połówkowa'),
+        ('lina bliz', 'Lina bliźniacza'),
+        ('hms', 'Karabinek HMS'),
+        ('ekspres', 'Ekspres'),
+        ('ekspres gor', 'Eskpres górski'),
+        ('zestaw kosci', 'Zestaw kości'),
+        ('zestaw kosci mech', 'Zestaw kości mechanicznych'),
+        ('sr lodowa', 'Śruba lodowa'),
+    )
+
+    nazwa_sprzetu = forms.ChoiceField(choices=RODZAJE_SPRZETU, label='Nazwa sprzętu', help_text='Dodaj sprzęt do profilu')
+    ilosc_sprzetu = forms.IntegerField(min_value=1, label='Ilość sprzętu')
+
+
+
     class Meta:
         model = Wspinacz
         fields = ('opis_umiejetnosci',)

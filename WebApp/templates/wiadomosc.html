@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}Wiadomości{% endblock %}
+
+{% block content %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/profil/">Profil</a></li>
+      <li class="breadcrumb-item"><a href="/wiadomosci/">Wiadomości</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ wiadomosc.tytul }}</li>
+    </ol>
+  </nav>
+  <div class="card">
+    <div class="card-header bg-success">
+      <b>{{ wiadomosc.tytul }}</b>
+    </div>
+    <div class="card-body">
+      <p class="card-text">{{ wiadomosc.wiadomosc }}</p>
+    </div>
+  </div>
+{% endblock %}
+{% block style %}
+  <style>
+    a {
+      text-decoration: none;
+    }
+  </style>
+{% endblock %}
+
