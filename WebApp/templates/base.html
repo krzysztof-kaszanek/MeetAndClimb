@@ -17,24 +17,24 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="/wyjazdy">Wyjazdy</a>
+            <a class="nav-link" href="/wyjazdy/">Wyjazdy</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/kursy">Kursy</a>
+            <a class="nav-link" href="/kursy/">Kursy</a>
           </li>
           <li class="nav-item dropdown">
         </ul>
         <ul class="navbar-nav ml-auto">
           {% if request.user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link" href="/profil">Profil</a>
+              <a class="nav-link" href="/profil/">Profil</a>
             </li>
           {% else %}
             <li class="nav-item">
-              <a class="nav-link" href="/accounts/login">Login</a>
+              <a class="nav-link" href="/accounts/login/">Login</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/accounts/signup">Rejestracja</a>
+              <a class="nav-link" href="/accounts/signup/">Rejestracja</a>
             </li>
           {% endif %}
         </ul>
@@ -46,3 +46,5 @@
     </div>
   </body>
 </html>
+{% block style %}
+{% endblock %}

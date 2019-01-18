@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Wyjazdy{% endblock %}
+
+{% block content %}
+  <a href="dodaj/" class="btn btn-success" id="dodaj">Dodaj wyjazd</a>
+
+  {% for wyjazd in wyjazdy %}
+    <div class="card">
+      <h5 class="card-header">{{ wyjazd.tytul }} {{ wyjazd.data_rozpoczecia }}-{{ wyjazd.data_zakonczenia }}</h5>
+      <div class="card-body">
+        <p class="card-text">{{ wyjazd.opis }}</p>
+        <a href="#" class="btn btn-primary">Szczegóły</a>
+      </div>
+    </div>
+  {% endfor %}
+{% endblock %}
+{% block style %}
+<style>
+  #dodaj {
+    margin-bottom: 3%;
+  }
+</style>
+{% endblock %}

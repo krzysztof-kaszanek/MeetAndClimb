@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Wyjazdy{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <h5 class="card-header">{{ wyjazd.tytul }} {{ wyjazd.data_rozpoczecia }}-{{ wyjazd.data_zakonczenia }}</h5>
+    <div class="card-body">
+      <p class="card-text">{{ wyjazd.opis }}</p>
+    </div>
+  </div>
+
+  <div class="row">
+  <div class="col-sm-2">
+    <div class="card" id="trudnosci">
+      <h5 class="card-header">Trudności</h5>
+      <div class="card-body">
+        {% for trudnosc in wyjazd.trudnosci_drog %}
+          {{ trudnosc }}<br />
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-5">
+    <div class="card" id="uczestnicy">
+      <h5 class="card-header">Uczestnicy</h5>
+      <div class="card-body">
+        {% for uczestnik in uczestnicy %}
+          <p>{{ uczestnik.first_name }} {{ uczestnik.last_name }}</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-5">
+    <div class="card" id="sprzet">
+      <h5 class="card-header">Dostępny sprzęt</h5>
+      <div class="card-body">
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block style %}
+<style>
+
+
+  .card {
+    margin-bottom: 3%;
+  }
+
+  .col-sm {
+    margin: 0 1% 0 1%;
+  }
+</style>
+{% endblock %}
