@@ -6,10 +6,9 @@
 {% block content %}
   <div>
     <h2>{{ user.username }}</h2>
-    <p>Imię: {{ user.first_name }}</p>
-    <p>Nazwisko: {{ user.last_name }}</p>
-    <p>Email: {{ user.email }}</p>
-    <p>Umiejetnosci: {{ wspinacz.opis_umiejetnosci }}</p>
+    <p><b>Imię:</b> {{ user.first_name }}</p>
+    <p><b>Nazwisko: </b>{{ user.last_name }}</p>
+    <p><b>Email:</b> {{ user.email }}</p>
   <form method="post">
     {% csrf_token %}
     {% bootstrap_form form %}

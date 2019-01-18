@@ -34,6 +34,12 @@ class UpdateWspinacz(forms.ModelForm):
     class Meta:
         model = Wspinacz
         fields = ('opis_umiejetnosci',)
+        labels = {
+            'opis_umiejetnosci': 'Opis umiejętności'
+        }
+        widgets = {
+            'opis_umiejetnosci': forms.Textarea(attrs={'rows': 4, 'cols': 100}),
+        }
 
 
 class DateInput(forms.DateInput):

@@ -5,3 +5,12 @@
 input {
     width: 25% !important;
 }
+
+textarea {
+    width: 50% !important;
+}
+
+select {
+    width: 15% !important;
+    height: 200px;
+}
