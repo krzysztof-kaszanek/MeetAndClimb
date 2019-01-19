@@ -1,5 +1,6 @@
 from django.urls import path
-
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
@@ -15,4 +16,5 @@ urlpatterns = [
     path('zgloszenia/odrzuc/<int:zgloszenie_id>/', views.odrzuc_zgloszenie, name='odrzuc_zgloszenie'),
     path('wiadomosci/', views.przegladaj_wiadomosci, name='przegladaj_wiadomosci'),
     path('wiadomosci/<int:wiadomosc_id>', views.czytaj_wiadomosc, name='czytaj_wiadomosc'),
-]
+    path('pobierz', views.pobierz, name='pobierz'),
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

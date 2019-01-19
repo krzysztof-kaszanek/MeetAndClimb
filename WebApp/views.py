@@ -11,7 +11,7 @@ def index(request):
     template = loader.get_template('base.html')
     wiadomosci = Wiadomosc.objects.all().filter(odbiorca=wspinacz, przeczytana=False)
     liczba_wiadomosci = len(wiadomosci)
-    return HttpResponse(template.render({'liczba_wiadomosci': liczba_wiadomosci}, request))
+    return HttpResponse(template.render({'liczba_wiadomosci': liczba_wiadomosci, 'link': wspinacz.ubezpieczenie.url}, request))
 
 
 def profil(request):
@@ -103,3 +103,11 @@ def czytaj_wiadomosc(request, wiadomosc_id):
         wiadomosc.przeczytana = True
         wiadomosc.save()
     return render(request, 'wiadomosc.html', {'wiadomosc': wiadomosc})
+
+
+def pobierz(request):
+    wspinacz = Wspinacz.objects.get(user=request.user)
+    filename = wspinacz.ubezpieczenie.file.name.split('/')[-1]
+    response = HttpResponse(wspinacz.ubezpieczenie.file, content_type='text/plain')
+    response['Content-Disposition'] = 'attachment; filename=%s' % filename
+    return response

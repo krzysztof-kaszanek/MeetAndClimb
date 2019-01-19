@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}Zgłoszenia{% endblock %}
+
+{% block content %}
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Wyjazd</th>
+        <th>Zgłaszający</th>
+        <th>Akcje</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for zgloszenie in zgloszenia %}
+        <tr>
+          <td>{{ zgloszenie.wyjazd.tytul }}</td>
+          <td>{{ zgloszenie.wspinacz.user.first_name }} {{ zgloszenie.wspinacz.user.last_name }}</td>
+          <td style="text-align: center">
+            <a href="zaakceptuj/{{ zgloszenie.pk }}" class="btn btn-success" style="margin-right: 15%"><span class="fa fa-check-circle" aria-hidden="true"></span></a>
+            <a href="odrzuc/{{ zgloszenie.pk }}" class="btn btn-danger"><i class="fa fa-times-circle"></i></a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+
