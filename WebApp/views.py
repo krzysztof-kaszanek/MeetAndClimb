@@ -9,9 +9,7 @@ from django.contrib.auth import logout
 def index(request):
     wspinacz = Wspinacz.objects.get(user=request.user)
     template = loader.get_template('base.html')
-    wiadomosci = Wiadomosc.objects.all().filter(odbiorca=wspinacz, przeczytana=False)
-    liczba_wiadomosci = len(wiadomosci)
-    return HttpResponse(template.render({'liczba_wiadomosci': liczba_wiadomosci, 'link': wspinacz.ubezpieczenie.url}, request))
+    return HttpResponse(template.render({'link': wspinacz.ubezpieczenie.url}, request))
 
 
 def profil(request):
