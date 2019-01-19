@@ -17,12 +17,20 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link" href="/wyjazdy/sortuj/brak">Wyjazdy</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/kursy/sortuj/brak">Kursy</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/zgloszenia">Zgłoszenia</a>
+          </li>
+          {% if uzytkownik_instruktorem %}
+          <li class="nav-item">
+            <a class="nav-link" href="/zapisy_na_kursy">Zapisy na kursy</a>
+          </li>
+          {% endif %}
         </ul>
         <ul class="navbar-nav ml-auto">
           {% if request.user.is_authenticated %}
