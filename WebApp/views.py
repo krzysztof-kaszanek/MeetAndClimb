@@ -46,8 +46,15 @@ def dodaj_wyjazd(request):
 
 def szczegoly_wyjazdu(request, wyjazd_id):
     wyjazd = Wyjazd.objects.get(pk=wyjazd_id)
-    uczestnicy = UczestnikWyjazdu.objects.all().filter(wyjazd_id=wyjazd.id)
-    return render(request, 'szczegoly_wyjazdu.html', {'wyjazd': wyjazd, 'uczestnicy': uczestnicy})
+    uczestnicy = UczestnikWyjazdu.objects.filter(wyjazd_id=wyjazd.id, status_zgloszenia='zaakc')
+    dostepny_sprzet = []
+    for uczestnik in uczestnicy:
+        print(uczestnik.wspinacz.id)
+        wspinacz = Wspinacz.objects.get(pk=uczestnik.wspinacz.id)
+        sprzet = PosiadaSprzet.objects.filter(wspinacz_id=wspinacz.id)
+        for item in sprzet:
+            dostepny_sprzet.append(item)
+    return render(request, 'szczegoly_wyjazdu.html', {'wyjazd': wyjazd, 'uczestnicy': uczestnicy, 'sprzet': dostepny_sprzet})
 
 
 def wyloguj(request):
