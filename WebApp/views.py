@@ -1,15 +1,13 @@
 from django.http import HttpResponse
-from django.template import loader
 from WebApp.forms import UpdateWspinacz, DodajWyjazd, WyslijPotwierdzeniePrzelewu, WyslijUbezpieczenie
 from WebApp.models import Wspinacz, Wyjazd, UczestnikWyjazdu, PosiadaSprzet, Wiadomosc, Kurs
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import logout
+from django.core.mail import send_mail
 
 
 def index(request):
-    wspinacz = Wspinacz.objects.get(user=request.user)
-    template = loader.get_template('base.html')
-    return HttpResponse(template.render({'link': wspinacz.ubezpieczenie.url}, request))
+    return render(request, 'base.html', {})
 
 
 def profil(request):
@@ -129,13 +127,15 @@ def kursy(request, sortowanie):
 def szczegoly_kursu(request, kurs_id):
     kurs = Kurs.objects.get(pk=kurs_id)
     instruktor = kurs.instruktor
-    cena_os = kurs.cena / kurs.limit_osob
+    cena_os = int(kurs.cena / kurs.limit_osob)
     return render(request, 'szczegoly_kursu.html', {'kurs': kurs, 'instruktor': instruktor, 'cena_os': cena_os})
 
 
 def zapisz_na_kurs(request, kurs_id):
     wspinacz = Wspinacz.objects.get(user=request.user)
     kurs = Kurs.objects.get(pk=kurs_id)
+    wyslij_email('Dane do przelewu', 'Nr konta: 12345678, kwota: ' + str(int(kurs.cena/kurs.limit_osob)) + 'zł', wspinacz.user.email)
+
     if request.method == 'POST':
         form = WyslijPotwierdzeniePrzelewu(request.POST, request.FILES)
         if form.is_valid():
@@ -160,3 +160,13 @@ def zapisz_ubezpieczenie(request, kurs_id):
     else:
         form = WyslijUbezpieczenie()
     return render(request, 'zapisz_ubezpieczenie.html', {'form': form})
+
+
+def wyslij_email(temat, wiadomosc, odbiorca):
+    send_mail(
+        temat,
+        wiadomosc,
+        'krzysztof.kaszanek@gmail.com',
+        [odbiorca],
+        fail_silently=False,
+    )

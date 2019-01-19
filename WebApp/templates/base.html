@@ -25,16 +25,17 @@
           </li>
         </ul>
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/wiadomosci/">Wiadomości
-              {% if liczba_wiadomosci != 0 %}
-                <span class="badge badge-primary" style="white-space:nowrap">
-                  {{ liczba_wiadomosci }}
-                </span>
-              {% endif %}
-            </a>
-
-          </li>
+          {% if request.user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="/wiadomosci/">Wiadomości
+                {% if liczba_wiadomosci != 0 %}
+                  <span class="badge badge-primary" style="white-space:nowrap">
+                    {{ liczba_wiadomosci }}
+                  </span>
+                {% endif %}
+              </a>
+            </li>
+          {% endif %}
           {% if request.user.is_authenticated %}
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

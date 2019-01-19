@@ -97,7 +97,7 @@ class UczestnikWyjazdu(models.Model):
 class UczestnikKursu(models.Model):
     wspinacz = models.ForeignKey(Wspinacz, on_delete=models.CASCADE)
     kurs = models.ForeignKey(Kurs, on_delete=models.CASCADE)
-    potwierdzenie_wplaty = models.FileField(upload_to='uploads', null=True, blank=True)
+    potwierdzenie_wplaty = models.FileField(upload_to='uploads')
 
 
 class Wiadomosc(models.Model):
