@@ -93,6 +93,12 @@ class DodajWyjazd(forms.ModelForm):
         obj.save()
         return obj
 
+    def clean(self):
+        data_rozpoczecia = self.cleaned_data['data_rozpoczecia']
+        data_zakonczenia = self.cleaned_data['data_zakonczenia']
+        if data_zakonczenia < data_rozpoczecia:
+            raise forms.ValidationError("Data rozpoczęcia musi poprzedzać datę zakończenia wyjazdu")
+
     class Meta:
         TRUDNOSCI_DROG = (
             ('3', '3'),
