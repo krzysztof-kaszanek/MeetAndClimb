@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Kursy{% endblock %}
+
+{% block content %}
+  <div class="row">
+  <div class="col-sm-10">
+    <div class="card">
+      <h5 class="card-header">{{ kurs.get_rodzaj_kursu_display }} {{ kurs.data_rozpoczecia }}-{{ kurs.data_zakonczenia }} {{ cena_os }}zł/os</h5>
+      <div class="card-body">
+        <p class="card-text">{{ kurs.opis }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <div style="float:right">
+      Instruktor: {{ instruktor.user.first_name }} {{ instruktor.user.last_name }}<br />
+      {{ instruktor.get_stopien_instruktorski_display }}
+    </div>
+  </div>
+</div>
+
+<div style="text-align: center">
+  <a href="/kursy/zapisz/{{ kurs.pk }}" class="btn btn-primary" style="margin-bottom: 30px">Zapisz się</a>
+</div>
+
+{% endblock %}
+{% block style %}
+<style>
+  .card {
+    margin-bottom: 3%;
+  }
+
+</style>
+{% endblock %}

@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.template import loader
-from WebApp.forms import UpdateWspinacz, DodajWyjazd
-from WebApp.models import Wspinacz, Wyjazd, UczestnikWyjazdu, PosiadaSprzet, Wiadomosc
+from WebApp.forms import UpdateWspinacz, DodajWyjazd, WyslijPotwierdzeniePrzelewu, WyslijUbezpieczenie
+from WebApp.models import Wspinacz, Wyjazd, UczestnikWyjazdu, PosiadaSprzet, Wiadomosc, Kurs
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import logout
 
@@ -116,3 +116,49 @@ def pobierz(request):
     response = HttpResponse(wspinacz.ubezpieczenie.file, content_type='text/plain')
     response['Content-Disposition'] = 'attachment; filename=%s' % filename
     return response
+
+
+def kursy(request, sortowanie):
+    if sortowanie == 'data_malejaco':
+        kursy_all = Kurs.objects.all().order_by('-data_rozpoczecia')
+    elif sortowanie == 'data_rosnaco':
+        kursy_all = Kurs.objects.all().order_by('data_rozpoczecia')
+    else:
+        kursy_all = Kurs.objects.all()
+    return render(request, 'kursy.html', {'kursy': kursy_all})
+
+
+def szczegoly_kursu(request, kurs_id):
+    kurs = Kurs.objects.get(pk=kurs_id)
+    instruktor = kurs.instruktor
+    cena_os = kurs.cena / kurs.limit_osob
+    return render(request, 'szczegoly_kursu.html', {'kurs': kurs, 'instruktor': instruktor, 'cena_os': cena_os})
+
+
+def zapisz_na_kurs(request, kurs_id):
+    wspinacz = Wspinacz.objects.get(user=request.user)
+    kurs = Kurs.objects.get(pk=kurs_id)
+    if request.method == 'POST':
+        form = WyslijPotwierdzeniePrzelewu(request.POST, request.FILES)
+        if form.is_valid():
+            uczestnik_kursu = form.save(commit=False)
+            uczestnik_kursu.wspinacz = wspinacz
+            uczestnik_kursu.kurs = kurs
+            form.save()
+            return redirect('/kursy/zapisz_ubezpieczenie/' + str(kurs_id))
+    else:
+        form = WyslijPotwierdzeniePrzelewu()
+    return render(request, 'zapisz_potwierdzenie_przelewu.html', {'form': form})
+
+
+def zapisz_ubezpieczenie(request, kurs_id):
+    if request.method == 'POST':
+        form = WyslijUbezpieczenie(request.POST, request.FILES)
+        if form.is_valid():
+            ubezpieczenie = request.FILES['ubezpieczenie']
+            Wspinacz.objects.filter(user=request.user).update(ubezpieczenie=ubezpieczenie)
+            wiadomosc = 'Operacja zakończona pomyślnie! Oczekuj na odpowiedź instruktora'
+            return render(request, 'base.html', {'wiadomosc': wiadomosc})
+    else:
+        form = WyslijUbezpieczenie()
+    return render(request, 'zapisz_ubezpieczenie.html', {'form': form})

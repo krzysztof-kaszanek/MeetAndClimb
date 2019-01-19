@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Kursy{% endblock %}
+
+{% block content %}
+  <div class="dropdown show">
+  <a class="btn btn-secondary dropdown-toggle" href="#"  id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Sortuj
+  </a>
+
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+      <a class="dropdown-item" href="/kursy/sortuj/brak">Brak</a>
+      <a class="dropdown-item" href="/kursy/sortuj/data_rosnaco">Po dacie rosnąco</a>
+      <a class="dropdown-item" href="/kursy/sortuj/data_malejaco">Po dacie malejąco</a>
+    </div>
+  </div>
+  <br />
+  {% for kurs in kursy %}
+    <div class="card">
+      <h5 class="card-header">{{ kurs.rodzaj_kursu }} {{ kurs.data_rozpoczecia }}-{{ kurs.data_zakonczenia }} {% widthratio kurs.cena kurs.limit_osob 1 %}zł/os</h5>
+      <div class="card-body">
+        <p class="card-text">{{ kurs.opis }}</p>
+        <a href="/kursy/{{ kurs.pk }}" class="btn btn-primary">Szczegóły</a>
+      </div>
+    </div>
+  {% endfor %}
+{% endblock %}
+{% block style %}
+<style>
+  .card {
+    margin-bottom: 10px;
+  }
+</style>
+{% endblock %}

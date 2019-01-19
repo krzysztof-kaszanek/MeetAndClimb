@@ -17,4 +17,10 @@ urlpatterns = [
     path('wiadomosci/', views.przegladaj_wiadomosci, name='przegladaj_wiadomosci'),
     path('wiadomosci/<int:wiadomosc_id>', views.czytaj_wiadomosc, name='czytaj_wiadomosc'),
     path('pobierz', views.pobierz, name='pobierz'),
+
+    path('kursy/sortuj/<str:sortowanie>', views.kursy, name='kursy'),
+    path('kursy/<int:kurs_id>', views.szczegoly_kursu, name='szczegoly_kursu'),
+    path('kursy/zapisz/<int:kurs_id>', views.zapisz_na_kurs, name='zapisz_na_kurs'),
+    path('kursy/zapisz_ubezpieczenie/<int:kurs_id>', views.zapisz_ubezpieczenie, name='zapisz_ubezpieczenie'),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

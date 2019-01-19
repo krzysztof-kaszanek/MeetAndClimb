@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from WebApp.models import Wspinacz, Wyjazd
+from WebApp.models import Wspinacz, Wyjazd, UczestnikKursu
 
 
 class SignUpForm(UserCreationForm):
@@ -28,6 +28,18 @@ class SignUpForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class WyslijPotwierdzeniePrzelewu(forms.ModelForm):
+    class Meta:
+        model = UczestnikKursu
+        fields = ('potwierdzenie_wplaty',)
+
+
+class WyslijUbezpieczenie(forms.ModelForm):
+    class Meta:
+        model = Wspinacz
+        fields = ('ubezpieczenie',)
 
 
 class UpdateWspinacz(forms.ModelForm):

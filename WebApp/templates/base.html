@@ -21,7 +21,7 @@
             <a class="nav-link" href="/wyjazdy/sortuj/brak">Wyjazdy</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/kursy/">Kursy</a>
+            <a class="nav-link" href="/kursy/sortuj/brak">Kursy</a>
           </li>
         </ul>
         <ul class="navbar-nav ml-auto">
@@ -58,7 +58,13 @@
       </div>
     </nav>
     <div class="content">
-      <a href="/pobierz/">Link do pdfa</a>
+      {% if wiadomosc %}
+        <div class="alert alert-success" role="alert">
+          {{ wiadomosc }}
+        </div>
+      {% endif %}
+
+{#      <a href="/pobierz/">Link do pdfa</a>#}
       {% block content %}
       {% endblock %}
     </div>

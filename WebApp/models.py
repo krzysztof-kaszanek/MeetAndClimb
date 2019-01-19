@@ -50,9 +50,9 @@ class Wyjazd(models.Model):
 
 class Kurs(models.Model):
     RODZAJE_KURSU = (
-        ('skal', 'Skałkowy'),
-        ('tater', 'Taternicki'),
-        ('law', 'Lawinowy')
+        ('skal', 'Kurs skałkowy'),
+        ('tater', 'Kurs taternicki'),
+        ('law', 'Kurs lawinowy')
     )
 
     instruktor = models.ForeignKey(Instruktor, on_delete=models.CASCADE)
@@ -60,6 +60,7 @@ class Kurs(models.Model):
     data_zakonczenia = models.DateField()
     opis = models.CharField(max_length=255)
     cena = models.FloatField()
+    limit_osob = models.PositiveIntegerField()
     rodzaj_kursu = models.CharField(max_length=255, choices=RODZAJE_KURSU)
 
 
@@ -96,7 +97,7 @@ class UczestnikWyjazdu(models.Model):
 class UczestnikKursu(models.Model):
     wspinacz = models.ForeignKey(Wspinacz, on_delete=models.CASCADE)
     kurs = models.ForeignKey(Kurs, on_delete=models.CASCADE)
-    potwierdzenie_wplaty = models.BinaryField(null=True)
+    potwierdzenie_wplaty = models.FileField(upload_to='uploads', null=True, blank=True)
 
 
 class Wiadomosc(models.Model):

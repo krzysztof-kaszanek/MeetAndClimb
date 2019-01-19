@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}Zapisz na kurs{% endblock %}
+
+{% block content %}
+    Wysłaliśmy dane do przelewu na twój adres email. Wyślij prosze potwierdzenie przelewu korzystając z formularza poniżej.
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      <div style="text-align: center">
+        <input type="submit" value="Dalej" class="btn btn-primary">
+      </div>
+    </form>
+{% endblock %}
