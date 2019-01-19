@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}Zgłoszenia{% endblock %}
+
+{% block content %}
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Kurs</th>
+        <th>Imię i nazwisko kursanta</th>
+        <th>Potwierdzenie przelewu</th>
+        <th>Ubezpieczenie</th>
+        <th>Akcje</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for zapis in zapisy %}
+        <tr>
+          <td>{{ zapis.kurs.get_rodzaj_kursu_display }} {{ zapis.kurs.data_rozpoczecia }}-{{ zapis.kurs.data_zakonczenia }}</td>
+          <td>{{ zapis.wspinacz.user.first_name }} {{ zapis.wspinacz.user.last_name }}</td>
+          <td><a href="/pobierz_potwierdzenie/{{ zapis.pk }}">Pobierz</a></td>
+          <td>
+            {% if zapis.wspinacz.ubezpieczenie.name %}
+              <a href="/pobierz_ubezpieczenie/{{ zapis.wspinacz.pk }}">Pobierz</a>
+              {% else %}
+              BRAK
+            {% endif %}
+          </td>
+          <td style="text-align: center">
+            <a href="zaakceptuj/{{ zapis.pk }}" class="btn btn-success" style="margin-right: 15%"><span class="fa fa-check-circle" aria-hidden="true"></span></a>
+            <a href="odrzuc/{{ zapis.pk }}" class="btn btn-danger"><i class="fa fa-times-circle"></i></a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+

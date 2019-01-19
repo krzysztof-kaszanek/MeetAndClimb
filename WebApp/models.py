@@ -95,9 +95,16 @@ class UczestnikWyjazdu(models.Model):
 
 
 class UczestnikKursu(models.Model):
+    STATUS = (
+        ('oczek', 'Oczekujące'),
+        ('odrz', 'Odrzucone'),
+        ('zaakc', 'Zaakceptowane')
+    )
+
     wspinacz = models.ForeignKey(Wspinacz, on_delete=models.CASCADE)
     kurs = models.ForeignKey(Kurs, on_delete=models.CASCADE)
     potwierdzenie_wplaty = models.FileField(upload_to='uploads')
+    status_zapisu = models.CharField(max_length=255, choices=STATUS, default='oczek')
 
 
 class Wiadomosc(models.Model):
