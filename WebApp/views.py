@@ -30,8 +30,13 @@ def profil(request):
     return render(request, 'profil.html', {'form': form, 'wspinacz': wspinacz, 'sprzet': sprzet})
 
 
-def wyjazdy(request):
-    wyjazdy_all = Wyjazd.objects.all()
+def wyjazdy(request, sortowanie):
+    if sortowanie == 'data_malejaco':
+        wyjazdy_all = Wyjazd.objects.all().order_by('-data_rozpoczecia')
+    elif sortowanie == 'data_rosnaco':
+        wyjazdy_all = Wyjazd.objects.all().order_by('data_rozpoczecia')
+    else:
+        wyjazdy_all = Wyjazd.objects.all()
     return render(request, 'wyjazdy.html', {'wyjazdy': wyjazdy_all})
 
 
