@@ -6,7 +6,7 @@ from django.contrib.postgres.fields import ArrayField
 class Wspinacz(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     opis_umiejetnosci = models.CharField(max_length=255)
-    ubezpieczenie = models.FileField(db_index=True, upload_to='uploads', null=True, blank=True)
+    ubezpieczenie = models.FileField(upload_to='uploads', null=True, blank=True)
 
 
 class Instruktor(Wspinacz):

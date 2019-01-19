@@ -46,11 +46,9 @@ class UpdateWspinacz(forms.ModelForm):
     nazwa_sprzetu = forms.ChoiceField(choices=RODZAJE_SPRZETU, label='Nazwa sprzętu', help_text='Dodaj sprzęt do profilu')
     ilosc_sprzetu = forms.IntegerField(min_value=1, label='Ilość sprzętu')
 
-
-
     class Meta:
         model = Wspinacz
-        fields = ('opis_umiejetnosci',)
+        fields = ('opis_umiejetnosci', 'ubezpieczenie')
         labels = {
             'opis_umiejetnosci': 'Opis umiejętności'
         }

@@ -18,10 +18,15 @@ def profil(request):
     wspinacz = Wspinacz.objects.get(user=request.user)
     instance = get_object_or_404(Wspinacz, id=wspinacz.id)
     sprzet = PosiadaSprzet.objects.all().filter(wspinacz=wspinacz)
-    form = UpdateWspinacz(request.POST or None, instance=instance)
-    if form.is_valid():
-        form.save()
-        return redirect('/')
+    if request.method == 'POST':
+        form = UpdateWspinacz(request.POST, request.FILES, instance=instance)
+        if form.is_valid():
+            form.save(commit=False)
+            form.user_id = request.user.id
+            form.save()
+            return redirect('/')
+    else:
+        form = UpdateWspinacz()
     return render(request, 'profil.html', {'form': form, 'wspinacz': wspinacz, 'sprzet': sprzet})
 
 
