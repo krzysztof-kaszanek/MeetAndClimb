@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-from MeetAndClimb.secret_settings import SECRET_KEY
+import MeetAndClimb.secret_settings as secret_settings
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = SECRET_KEY
+SECRET_KEY = secret_settings.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -138,8 +138,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'zaglebielubin7@gmail.com'
-EMAIL_HOST_PASSWORD = 'Zelazko.1997'
-EMAIL_PORT = 587
+EMAIL_USE_TLS = secret_settings.EMAIL_USE_TLS
+EMAIL_HOST = secret_settings.EMAIL_HOST
+EMAIL_HOST_USER = secret_settings.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = secret_settings.EMAIL_HOST_PASSWORD
+EMAIL_PORT = secret_settings.EMAIL_PORT
