@@ -1,9 +1,20 @@
-from django.http import HttpResponse
-from WebApp.forms import UpdateWspinacz, DodajWyjazd, WyslijPotwierdzeniePrzelewu, WyslijUbezpieczenie
-from WebApp.models import Wspinacz, Wyjazd, UczestnikWyjazdu, PosiadaSprzet, Wiadomosc, Kurs, Instruktor, UczestnikKursu
-from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import logout
+from django.contrib.auth.models import User
 from django.core.mail import send_mail
+from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404, redirect
+
+from WebApp.forms import UpdateWspinacz,\
+    DodajWyjazd,\
+    WyslijPotwierdzeniePrzelewu,\
+    WyslijUbezpieczenie
+from WebApp.models import Wspinacz,\
+    Wyjazd,\
+    UczestnikWyjazdu,\
+    PosiadaSprzet, Wiadomosc,\
+    Kurs,\
+    Instruktor,\
+    UczestnikKursu
 
 
 def index(request):
@@ -54,7 +65,8 @@ def szczegoly_wyjazdu(request, wyjazd_id):
         sprzet = PosiadaSprzet.objects.filter(wspinacz_id=wspinacz.id)
         for item in sprzet:
             dostepny_sprzet.append(item)
-    return render(request, 'szczegoly_wyjazdu.html', {'wyjazd': wyjazd, 'uczestnicy': uczestnicy, 'sprzet': dostepny_sprzet})
+    return render(request, 'szczegoly_wyjazdu.html',
+                  {'wyjazd': wyjazd, 'uczestnicy': uczestnicy, 'sprzet': dostepny_sprzet})
 
 
 def wyloguj(request):
@@ -64,13 +76,16 @@ def wyloguj(request):
 
 def zglos_na_wyjazd(request, wyjazd_id):
     wspinacz = Wspinacz.objects.get(user=request.user)
-    UczestnikWyjazdu.objects.create(wspinacz=wspinacz, wyjazd_id=wyjazd_id, status_zgloszenia='oczek')
+    UczestnikWyjazdu.objects.create(wspinacz=wspinacz,
+                                    wyjazd_id=wyjazd_id,
+                                    status_zgloszenia='oczek')
     return render(request, 'zgloszenie_wyslane.html', {})
 
 
 def przegladaj_zgloszenia(request):
     wspinacz = Wspinacz.objects.get(user=request.user)
-    zgloszenia = UczestnikWyjazdu.objects.all().filter(status_zgloszenia='oczek', wyjazd__organizator=wspinacz)
+    zgloszenia = UczestnikWyjazdu.objects.all().filter(status_zgloszenia='oczek',
+                                                       wyjazd__organizator=wspinacz)
     return render(request, 'zgloszenia.html', {'zgloszenia': zgloszenia})
 
 
@@ -79,10 +94,11 @@ def zaakceptuj_zgloszenie(request, zgloszenie_id):
     zgloszenie.status_zgloszenia = 'zaakc'
     zgloszenie.save()
     zalogowany_wspinacz = Wspinacz.objects.get(user=request.user)
-    Wiadomosc.objects.create(nadawca=zalogowany_wspinacz, odbiorca=zgloszenie.wspinacz,
+    Wiadomosc.objects.create(nadawca=zalogowany_wspinacz,
+                             odbiorca=zgloszenie.wspinacz,
                              tytul='Zgłoszenie zaakceptowane',
                              wiadomosc='Twoje zgłoszenie na wyjazd: "' + zgloszenie.wyjazd.tytul +
-                                       '" zostało zaakceptowane przez organizatora!')
+                             '" zostało zaakceptowane przez organizatora!')
     return redirect('przegladaj_zgloszenia')
 
 
@@ -94,7 +110,7 @@ def odrzuc_zgloszenie(request, zgloszenie_id):
     Wiadomosc.objects.create(nadawca=zalogowany_wspinacz, odbiorca=zgloszenie.wspinacz,
                              tytul='Zgłoszenie odrzucone',
                              wiadomosc='Twoje zgłoszenie na wyjazd: "' + zgloszenie.wyjazd.tytul +
-                                       '" zostało odrzucone przez organizatora')
+                             '" zostało odrzucone przez organizatora')
     return redirect('przegladaj_zgloszenia')
 
 
@@ -105,8 +121,9 @@ def zaakceptuj_zapis(request, zapis_id):
     zalogowany_wspinacz = Wspinacz.objects.get(user=request.user)
     Wiadomosc.objects.create(nadawca=zalogowany_wspinacz, odbiorca=zapis.wspinacz,
                              tytul='Zapisano na kurs',
-                             wiadomosc='Twoje zgłoszenie na kurs: "' + zapis.kurs.get_rodzaj_kursu_display() +
-                                       '" zostało zaakceptowane przez instruktora!')
+                             wiadomosc='Twoje zgłoszenie na kurs: "' +
+                             zapis.kurs.get_rodzaj_kursu_display() +
+                             '" zostało zaakceptowane przez instruktora!')
     return redirect('przegladaj_zapisy_na_kursy')
 
 
@@ -118,8 +135,9 @@ def odrzuc_zapis(request, zapis_id):
     Wiadomosc.objects.create(nadawca=zalogowany_wspinacz, odbiorca=zapis.wspinacz,
                              tytul='Nie udało się zapisać na kurs',
                              wiadomosc='Niestety, nie udało się zapisać na wybrany kurs: "' +
-                                       zapis.kurs.get_rodzaj_kursu_display() + '". Skontaktuj się z instruktorem')
+                             zapis.kurs.get_rodzaj_kursu_display() + '". Skontaktuj się z instruktorem')
     return redirect('przegladaj_zapisy_na_kursy')
+
 
 def przegladaj_wiadomosci(request):
     wspinacz = Wspinacz.objects.get(user=request.user)
@@ -171,7 +189,8 @@ def szczegoly_kursu(request, kurs_id):
 def zapisz_na_kurs(request, kurs_id):
     wspinacz = Wspinacz.objects.get(user=request.user)
     kurs = Kurs.objects.get(pk=kurs_id)
-    wyslij_email('Dane do przelewu', 'Nr konta: 12345678, kwota: ' + str(int(kurs.cena/kurs.limit_osob)) + 'zł', wspinacz.user.email)
+    wyslij_email('Dane do przelewu', 'Nr konta: 12345678, kwota: ' + str(int(kurs.cena / kurs.limit_osob)) + 'zł',
+                 wspinacz.user.email)
 
     if request.method == 'POST':
         form = WyslijPotwierdzeniePrzelewu(request.POST, request.FILES)

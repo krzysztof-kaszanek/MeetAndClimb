@@ -1,3 +1,4 @@
+selenium
 astroid==2.1.0
 Django==2.1.4
 django-bootstrap4==0.0.7
