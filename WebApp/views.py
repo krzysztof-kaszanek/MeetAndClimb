@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -39,11 +41,11 @@ def profil(request):
 
 def wyjazdy(request, sortowanie):
     if sortowanie == 'data_malejaco':
-        wyjazdy_all = Wyjazd.objects.all().order_by('-data_rozpoczecia')
+        wyjazdy_all = Wyjazd.objects.filter(data_rozpoczecia__gte=datetime.date.today()).order_by('-data_rozpoczecia')
     elif sortowanie == 'data_rosnaco':
-        wyjazdy_all = Wyjazd.objects.all().order_by('data_rozpoczecia')
+        wyjazdy_all = Wyjazd.objects.filter(data_rozpoczecia__gte=datetime.date.today()).order_by('data_rozpoczecia')
     else:
-        wyjazdy_all = Wyjazd.objects.all()
+        wyjazdy_all = Wyjazd.objects.filter(data_rozpoczecia__gte=datetime.date.today())
     return render(request, 'wyjazdy.html', {'wyjazdy': wyjazdy_all})
 
 
@@ -171,11 +173,11 @@ def pobierz_ubezpieczenie(request, wspinacz_id):
 
 def kursy(request, sortowanie):
     if sortowanie == 'data_malejaco':
-        kursy_all = Kurs.objects.all().order_by('-data_rozpoczecia')
+        kursy_all = Kurs.objects.filter(data_rozpoczecia__gte=datetime.date.today()).order_by('-data_rozpoczecia')
     elif sortowanie == 'data_rosnaco':
-        kursy_all = Kurs.objects.all().order_by('data_rozpoczecia')
+        kursy_all = Kurs.objects.filter(data_rozpoczecia__gte=datetime.date.today()).order_by('data_rozpoczecia')
     else:
-        kursy_all = Kurs.objects.all()
+        kursy_all = Kurs.objects.filter(data_rozpoczecia__gte=datetime.date.today())
     return render(request, 'kursy.html', {'kursy': kursy_all})
 
 

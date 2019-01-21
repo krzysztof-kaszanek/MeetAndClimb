@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from WebApp.models import Wspinacz, Wyjazd, UczestnikKursu
 from WebApp.stale import RODZAJE_SPRZETU, TRUDNOSCI_DROG
 
+
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=32, label='Imię')
     last_name = forms.CharField(max_length=32, label='Nazwisko')

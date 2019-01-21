@@ -5,12 +5,12 @@
 
 {% block content %}
   <div style="text-align: center;">
-    Jeżeli masz aktualne ubezpieczenie, załaduj plik z jego potwierdzeniem korzystając z formularza poniżej. Jeśli jeszcze nie masz wykupionego ubezpieczenia, wybierz opcje wyślij później.
+    Jeżeli masz aktualne ubezpieczenie, załaduj plik z jego potwierdzeniem korzystając z formularza poniżej. Jeśli masz już potwierdzenie ubezpieczenia w swoim profilu, kliknij przycisk Zakończ.
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {% bootstrap_form form %}
-        <a href="/" class="btn btn-warning" style="margin-right: 2rem">Wyślij później</a>
-        <input type="submit" value="Dalej" class="btn btn-primary">
+        <a href="/" class="btn btn-warning" style="margin-right: 2rem">Zakończ</a>
+        <input type="submit" value="Wyślij" class="btn btn-primary">
     </form>
   </div>
 {% endblock %}
